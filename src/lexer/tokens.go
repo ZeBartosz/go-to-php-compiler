@@ -78,6 +78,8 @@ type Token struct {
 	value string
 }
 
+test
+
 // Checks if the the token.kind is one of the expectedTokens
 func (token Token) oneOfMany(expectedTokens ...TokenKind) bool {
 	for _, expected := range expectedTokens {
