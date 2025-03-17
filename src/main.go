@@ -10,5 +10,5 @@ func main() {
 	bytes, _ := os.ReadFile("./examples/00.lang")
 	source := string(bytes)
 
-	fmt.Println("code: \n", source)
+	fmt.Printf("code: %s\n", source)
 }
