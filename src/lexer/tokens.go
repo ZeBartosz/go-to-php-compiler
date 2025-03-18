@@ -105,15 +105,15 @@ var reserved_lu map[string]TokenKind = map[string]TokenKind{
 
 type Token struct {
 	// the token type
-	kind TokenKind
+	Kind TokenKind
 	// this is the value of the token (eg.+ would have a underlining + value)
-	value string
+	Value string
 }
 
 // Checks if the the token.kind is one of the expectedTokens
 func (token Token) oneOfMany(expectedTokens ...TokenKind) bool {
 	for _, expected := range expectedTokens {
-		if expected == token.kind {
+		if expected == token.Kind {
 			return true
 		}
 	}
@@ -124,9 +124,9 @@ func (token Token) oneOfMany(expectedTokens ...TokenKind) bool {
 // Helper method
 func (token Token) Debug() {
 	if token.oneOfMany(IDENTIFIER, NUMBER, STRING) {
-		fmt.Printf("%s (%s)\n", TokenKindString(token.kind), token.value)
+		fmt.Printf("%s (%s)\n", TokenKindString(token.Kind), token.Value)
 	} else {
-		fmt.Printf("%s ()\n", TokenKindString(token.kind))
+		fmt.Printf("%s ()\n", TokenKindString(token.Kind))
 	}
 }
 

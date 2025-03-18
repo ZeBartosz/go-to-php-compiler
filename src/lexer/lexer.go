@@ -25,7 +25,7 @@ type lexer struct {
 	pos      int            // The current position in the source string.
 }
 
-// updates the currect position in the source
+// updates the currect positiontokens[p.pos] in the source
 func (lex *lexer) advanceN(n int) {
 	lex.pos += n
 }
