@@ -9,7 +9,7 @@ import (
 // It receives a pointer to the lexer and the regex pattern that matched.
 type regexHandler func(lex *lexer, regex *regexp.Regexp)
 
-// regexPattern represents a pattern that the lexer will use to tokenize input.
+// regexPattern represents a pattern that the lexer will use to tokenize input.ointer to a lexer instance.
 // Each pattern consists of a compiled regular expression and a handler function
 // that determines what happens when a match is found.
 type regexPattern struct {
@@ -25,22 +25,27 @@ type lexer struct {
 	pos      int            // The current position in the source string.
 }
 
+// updates the currect position in the source
 func (lex *lexer) advanceN(n int) {
 	lex.pos += n
 }
 
+// add new token to the array
 func (lex *lexer) push(token Token) {
 	lex.Tokens = append(lex.Tokens, token)
 }
 
+// checks what is at the current pos
 func (lex *lexer) at() byte {
 	return lex.source[lex.pos]
 }
 
+// checks if we are at the end of the source
 func (lex *lexer) at_eof() bool {
 	return lex.pos >= len(lex.source)
 }
 
+// checks how many bytes are left till the end
 func (lex *lexer) remainder() string {
 	return lex.source[lex.pos:]
 }
@@ -73,7 +78,9 @@ func Tokenize(source string) []Token {
 	return lex.Tokens
 }
 
+// default handling
 func defaultHandler(kind TokenKind, value string) regexHandler {
+	// pointer to lexer instance
 	return func(lex *lexer, regex *regexp.Regexp) {
 		lex.advanceN(len(value))
 		lex.push(NewToken(kind, value))
@@ -81,6 +88,7 @@ func defaultHandler(kind TokenKind, value string) regexHandler {
 }
 
 func createLexer(source string) *lexer {
+	// & passing a pointer to a lexer instance
 	return &lexer{
 		pos:    0,
 		source: source,
@@ -123,12 +131,15 @@ func createLexer(source string) *lexer {
 	}
 }
 
+// handles numbers, pointer to a lexer instance, a compiled expression
 func numberHandler(lex *lexer, regex *regexp.Regexp) {
+	// finds first match of number pattern
 	match := regex.FindString(lex.remainder())
 	lex.push(NewToken(NUMBER, match))
 	lex.advanceN(len(match))
 }
 
+// handles whitespace
 func skipHandler(lex *lexer, regex *regexp.Regexp) {
 	match := regex.FindStringIndex(lex.remainder())
 	lex.advanceN(match[1])
