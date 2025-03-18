@@ -90,7 +90,7 @@ func (token Token) oneOfMany(expectedTokens ...TokenKind) bool {
 }
 
 // Helper method
-func (token Token) debug() {
+func (token Token) Debug() {
 	if token.oneOfMany(IDENTIFIER, NUMBER, STRING) {
 		fmt.Printf("%s (%s)\n", TokenKindString(token.kind), token.value)
 	} else {

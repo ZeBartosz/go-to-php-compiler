@@ -1,14 +1,17 @@
 package main
 
 import (
-	"fmt"
 	"os"
+
+	"github.com/ZeBartosz/PrattParsing/src/lexer"
 )
 
 func main() {
 	// we reading the file
 	bytes, _ := os.ReadFile("./examples/00.lang")
-	source := string(bytes)
+	tokens := lexer.Tokenize(string(bytes))
 
-	fmt.Printf("code: %s\n", source)
+	for _, token := range tokens {
+		token.Debug()
+	}
 }
