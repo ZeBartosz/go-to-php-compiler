@@ -8,7 +8,7 @@ import (
 
 func main() {
 	// we reading the file
-	bytes, _ := os.ReadFile("./examples/00.lang")
+	bytes, _ := os.ReadFile("./examples/01.lang")
 	tokens := lexer.Tokenize(string(bytes))
 
 	for _, token := range tokens {
