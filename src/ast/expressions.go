@@ -29,3 +29,5 @@ type BinaryExpr struct {
 	Operator lexer.Token
 	Right    Expr
 }
+
+func (n BinaryExpr) expr() {}

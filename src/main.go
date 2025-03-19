@@ -4,14 +4,15 @@ import (
 	"os"
 
 	"github.com/ZeBartosz/PrattParsing/src/lexer"
+	"github.com/ZeBartosz/PrattParsing/src/parser"
+	"github.com/sanity-io/litter"
 )
 
 func main() {
 	// we reading the file
 	bytes, _ := os.ReadFile("./examples/02.lang")
 	tokens := lexer.Tokenize(string(bytes))
+	ast := parser.Parse(tokens)
 
-	for _, token := range tokens {
-		token.Debug()
-	}
+	litter.Dump(ast)
 }

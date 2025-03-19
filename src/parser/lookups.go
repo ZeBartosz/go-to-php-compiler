@@ -25,27 +25,14 @@ const (
 )
 
 // Function types used to handle parsing of different language constructs
-// stmt_handler parses a statement (e.g., return statement, if statement).
 type stmt_handler func(p *parser) ast.Stmt
-
-// nud_handler parses a "null denotation" expression (prefix operators, literals).
 type nud_handler func(p *parser) ast.Expr
-
-// led_handler parses a "left denotation" expression (infix or postfix operators).
 type led_handler func(p *parser, left ast.Expr, bp binding_power) ast.Expr
 
 // Lookup tables that map token kinds to their respective handlers
-
-// Maps token kinds to statement handlers (for handling full statements).
 type stmt_lookup map[lexer.TokenKind]stmt_handler
-
-// Maps token kinds to "null denotation" handlers (for handling prefix expressions and literals).
 type nud_lookup map[lexer.TokenKind]nud_handler
-
-// Maps token kinds to "left denotation" handlers (for handling infix and postfix expressions).
 type led_lookup map[lexer.TokenKind]led_handler
-
-// Maps token kinds to their respective binding power (precedence level).
 type bp_lookup map[lexer.TokenKind]binding_power
 
 // Global lookup tables that will store parsing rules for different token kinds.
@@ -74,4 +61,28 @@ func stmt(kind lexer.TokenKind, stmt_fn stmt_handler) {
 
 func createTokenLookups() {
 
+	// Logical
+	led(lexer.AND, logical, parse_binary_expr)
+	led(lexer.OR, logical, parse_binary_expr)
+	led(lexer.DOT_DOT, logical, parse_binary_expr)
+
+	// Relational
+	led(lexer.LESS, relational, parse_binary_expr)
+	led(lexer.LESS_EQUALS, relational, parse_binary_expr)
+	led(lexer.GREATER, relational, parse_binary_expr)
+	led(lexer.GREATER_EQUALS, relational, parse_binary_expr)
+	led(lexer.EQUALS, relational, parse_binary_expr)
+	led(lexer.NOT_EQUALS, relational, parse_binary_expr)
+
+	// Additive & Multiplicative
+	led(lexer.PLUS, additive, parse_binary_expr)
+	led(lexer.DASH, additive, parse_binary_expr)
+	led(lexer.STAR, multiplicative, parse_binary_expr)
+	led(lexer.SLASH, multiplicative, parse_binary_expr)
+	led(lexer.PERCENT, multiplicative, parse_binary_expr)
+
+	// Literals $ Symbols
+	nud(lexer.NUMBER, primary, parse_primary_expr)
+	nud(lexer.STRING, primary, parse_primary_expr)
+	nud(lexer.IDENTIFIER, primary, parse_primary_expr)
 }
