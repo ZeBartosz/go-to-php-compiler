@@ -12,3 +12,11 @@ type ExpressionStmt struct {
 }
 
 func (n ExpressionStmt) stmt() {}
+
+type VarDeclStmt struct {
+	VariableName  string
+	IsConstant    bool
+	AssignedValue Expr
+}
+
+func (n VarDeclStmt) stmt() {}

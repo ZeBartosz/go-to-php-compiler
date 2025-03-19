@@ -1,0 +1,4 @@
+let foo = 15.5;
+let bar = foo * 2;
+
+const isGreater = foo > 10;
