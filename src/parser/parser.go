@@ -59,6 +59,7 @@ func (p *parser) hasToken() bool {
 	return p.pos < len(p.tokens) && p.currentTokenKind() != lexer.EOF
 }
 
+// checks if the expected tokenKind is the same a the parse kind
 func (p *parser) expectError(expectedKind lexer.TokenKind, err any) lexer.Token {
 	token := p.currentToken()
 	kind := token.Kind
@@ -74,6 +75,7 @@ func (p *parser) expectError(expectedKind lexer.TokenKind, err any) lexer.Token 
 	return p.advance()
 }
 
+// checks if the token is the one we expect1
 func (p *parser) expect(expectedKind lexer.TokenKind) lexer.Token {
 	return p.expectError(expectedKind, nil)
 }
