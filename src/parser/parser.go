@@ -15,6 +15,8 @@ type parser struct {
 // create a parser instance
 func createParser(tokens []lexer.Token) *parser {
 	createTokenLookups()
+	createTokenTypeLookups()
+
 	return &parser{
 		tokens: tokens, pos: 0,
 	}
