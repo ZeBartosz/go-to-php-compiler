@@ -11,7 +11,6 @@ import (
 )
 
 func main() {
-	// we reading the file
 	filePath := "./examples/05.lang"
 	bytes, err := os.ReadFile(filePath)
 	if err != nil {
@@ -20,7 +19,7 @@ func main() {
 	}
 	tokens := lexer.Tokenize(string(bytes))
 
-	ast := parser.Parse(tokens)
+	ast, err := parser.Parse(tokens)
 	if err != nil {
 		fmt.Printf("Error parsing: %v\n", err)
 		return
@@ -31,12 +30,7 @@ func main() {
 
 	// Generate PHP code from the AST
 	fmt.Println("\n--- Generated PHP Code ---")
-	phpCode, ok := ast.(codegen.Stmt)
-	if !ok {
-		fmt.Println("Error: AST root is not a Stmt")
-		return
-	}
 
-	generatedCode := codegen.GeneratePHP(phpCode)
+	generatedCode := codegen.GeneratePHP(ast)
 	fmt.Println(generatedCode)
 }

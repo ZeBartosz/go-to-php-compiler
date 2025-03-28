@@ -25,7 +25,7 @@ const (
 )
 
 // Function types used to handle parsing of different language constructs
-type stmt_handler func(p *parser) ast.Stmt
+type stmt_handler func(p *parser) (ast.Stmt, error)
 type nud_handler func(p *parser) ast.Expr
 type led_handler func(p *parser, left ast.Expr, bp binding_power) ast.Expr
 

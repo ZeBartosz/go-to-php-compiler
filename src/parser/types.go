@@ -64,7 +64,7 @@ func parse_type(p *parser, bp binding_power) ast.Type {
 	// checks if the current tokenKind has higher binding power
 	for type_bp_lu[p.currentTokenKind()] > bp {
 		// next tokenKind
-		tokenKind = p.currentTokenKind()
+		tokenKind := p.currentTokenKind()
 		// checks if it exists in the look up
 		led_fn, exists := type_led_lu[tokenKind]
 
@@ -73,7 +73,7 @@ func parse_type(p *parser, bp binding_power) ast.Type {
 			panic(fmt.Sprintf("TYPE_LED HANDLER EXPECTED FOR TOKEN %s\n", lexer.TokenKindString(tokenKind)))
 		}
 
-		left = led_fn(p, left, type_bp_lu[p.currentTokenKind()])
+		left = led_fn(p, left, type_bp_lu[tokenKind])
 	}
 
 	return left

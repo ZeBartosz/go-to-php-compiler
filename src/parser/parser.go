@@ -22,7 +22,7 @@ func createParser(tokens []lexer.Token) *parser {
 	}
 }
 
-func Parse(tokens []lexer.Token) ast.BlockStmt {
+func Parse(tokens []lexer.Token) (ast.Stmt, error) {
 	// instancate a body
 	Body := make([]ast.Stmt, 0)
 	// Create the body
@@ -30,17 +30,24 @@ func Parse(tokens []lexer.Token) ast.BlockStmt {
 
 	// iterate till we get to the end of the file
 	for p.hasToken() {
-		Body = append(Body, parse_stmt(p))
+		stmt, err := parse_stmt(p)
+		if err != nil {
+			return nil, err
+		}
+		Body = append(Body, stmt)
 	}
 
 	return ast.BlockStmt{
 		Body: Body,
-	}
+	}, nil
 }
 
 // helper methods
 // returns current token
 func (p *parser) currentToken() lexer.Token {
+	if p.pos >= len(p.tokens) {
+		return lexer.Token{Kind: lexer.EOF}
+	}
 	return p.tokens[p.pos]
 }
 
@@ -52,7 +59,9 @@ func (p *parser) currentTokenKind() lexer.TokenKind {
 // advance to the next token, returns current token
 func (p *parser) advance() lexer.Token {
 	tk := p.currentToken()
-	p.pos++
+	if p.pos < len(p.tokens) {
+		p.pos++
+	}
 	return tk
 }
 
@@ -62,22 +71,26 @@ func (p *parser) hasToken() bool {
 }
 
 // checks if the expected tokenKind is the same a the parse kind
-func (p *parser) expectError(expectedKind lexer.TokenKind, err any) lexer.Token {
+func (p *parser) expectError(expectedKind lexer.TokenKind, errStr string) (lexer.Token, error) {
 	token := p.currentToken()
 	kind := token.Kind
 
 	if kind != expectedKind {
-		if err == nil {
-			err = fmt.Sprintf("Expected %s but received %s instead\n", lexer.TokenKindString(expectedKind), lexer.TokenKindString(kind))
+		err := fmt.Errorf("expected %s but received %s instead", lexer.TokenKindString(expectedKind), lexer.TokenKindString(kind))
+		if errStr != "" {
+			err = fmt.Errorf("%s: %w", errStr, err)
 		}
-
-		panic(err)
+		return token, err
 	}
 
-	return p.advance()
+	return p.advance(), nil
 }
 
-// checks if the token is the one we expect1
+// checks if the token is the one we expect
 func (p *parser) expect(expectedKind lexer.TokenKind) lexer.Token {
-	return p.expectError(expectedKind, nil)
+	tok, err := p.expectError(expectedKind, "")
+	if err != nil {
+		panic(err)
+	}
+	return tok
 }
