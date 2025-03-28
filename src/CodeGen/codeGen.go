@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ZeBartosz/PrattParsing/src/ast"
-	"github.com/ZeBartosz/PrattParsing/src/lexer"
+	"github.com/ZeBartosz/go-to-php-compiler/src/ast"
+	"github.com/ZeBartosz/go-to-php-compiler/src/lexer"
 )
 
 // GeneratePHP:  The main function to generate PHP code from the AST.

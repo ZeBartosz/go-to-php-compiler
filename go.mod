@@ -1,4 +1,4 @@
-module github.com/ZeBartosz/PrattParsing
+module github.com/ZeBartosz/go-to-php-compiler
 
 go 1.22.2
 

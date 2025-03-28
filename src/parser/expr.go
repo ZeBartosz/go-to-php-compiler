@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/ZeBartosz/PrattParsing/src/ast"
-	"github.com/ZeBartosz/PrattParsing/src/lexer"
+	"github.com/ZeBartosz/go-to-php-compiler/src/ast"
+	"github.com/ZeBartosz/go-to-php-compiler/src/lexer"
 )
 
 func parse_expr(p *parser, bp binding_power) ast.Expr {

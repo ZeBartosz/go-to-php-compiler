@@ -1,8 +1,8 @@
 package parser
 
 import (
-	"github.com/ZeBartosz/PrattParsing/src/ast"
-	"github.com/ZeBartosz/PrattParsing/src/lexer"
+	"github.com/ZeBartosz/go-to-php-compiler/src/ast"
+	"github.com/ZeBartosz/go-to-php-compiler/src/lexer"
 )
 
 // binding_power represents the precedence of different operators.

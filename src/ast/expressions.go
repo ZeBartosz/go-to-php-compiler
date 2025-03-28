@@ -1,6 +1,6 @@
 package ast
 
-import "github.com/ZeBartosz/PrattParsing/src/lexer"
+import "github.com/ZeBartosz/go-to-php-compiler/src/lexer"
 
 // LITERAL EXPRESSIONS
 type NumberExpr struct {
