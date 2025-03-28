@@ -62,6 +62,7 @@ const (
 	PERCENT
 
 	// Reserved Keywords
+	PACKAGE
 	LET
 	CONST
 	CLASS
@@ -83,6 +84,7 @@ const (
 )
 
 var reserved_lu map[string]TokenKind = map[string]TokenKind{
+	"package": PACKAGE,
 	"true":    TRUE,
 	"false":   FALSE,
 	"null":    NULL,

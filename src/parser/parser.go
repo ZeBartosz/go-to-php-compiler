@@ -23,10 +23,22 @@ func createParser(tokens []lexer.Token) *parser {
 }
 
 func Parse(tokens []lexer.Token) (ast.Stmt, error) {
-	// instancate a body
-	Body := make([]ast.Stmt, 0)
+
 	// Create the body
 	p := createParser(tokens)
+
+	// deals with the package
+	if p.currentTokenKind() == lexer.PACKAGE {
+		p.advance()
+		p.advance()
+
+		// Debug
+		// p.expect(lexer.IDENTIFIER).Value
+		// fmt.Printf("Parsed package: %s\n", packageName)
+	}
+
+	// instancate a body
+	Body := make([]ast.Stmt, 0)
 
 	// iterate till we get to the end of the file
 	for p.hasToken() {
