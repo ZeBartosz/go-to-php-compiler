@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	filePath := "./examples/05.lang"
+	filePath := "./examples/complex/06.go"
 	bytes, err := os.ReadFile(filePath)
 	if err != nil {
 		fmt.Printf("Error reading file: %v\n", err)
@@ -31,7 +31,7 @@ func main() {
 	generatedCode := codegen.GeneratePHP(ast)
 
 	// Define the output file name
-	outputFileName := "example.php"
+	outputFileName := "main.php"
 
 	// Write the generated PHP code to the file
 	err = os.WriteFile(outputFileName, []byte(generatedCode), 0644)
