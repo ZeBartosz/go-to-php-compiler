@@ -12,12 +12,10 @@ import (
 func GeneratePHP(node ast.Stmt) string {
 	var phpCode strings.Builder
 
-	phpCode.WriteString("<?php\n")
+	phpCode.WriteString("<?php\n\n")
 
 	// Generate code for the main part of the AST.
 	phpCode.WriteString(generateStatement(node))
-
-	phpCode.WriteString("\n?>")
 
 	return phpCode.String()
 }
@@ -115,6 +113,8 @@ func translateOperator(token lexer.Token) string {
 		return "/"
 	case lexer.EQUALS:
 		return "="
+	case lexer.GREATER:
+		return ">"
 	default:
 		return "// Unsupported operator"
 	}

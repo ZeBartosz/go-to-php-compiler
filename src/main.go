@@ -7,7 +7,6 @@ import (
 	codegen "github.com/ZeBartosz/go-to-php-compiler/src/CodeGen"
 	"github.com/ZeBartosz/go-to-php-compiler/src/lexer"
 	"github.com/ZeBartosz/go-to-php-compiler/src/parser"
-	"github.com/sanity-io/litter"
 )
 
 func main() {
@@ -25,12 +24,21 @@ func main() {
 		return
 	}
 
-	fmt.Println("--- Abstract Syntax Tree ---")
-	litter.Dump(ast)
-
-	// Generate PHP code from the AST
-	fmt.Println("\n--- Generated PHP Code ---")
+	// Debug
+	// fmt.Println("--- Abstract Syntax Tree ---")
+	// litter.Dump(ast)
 
 	generatedCode := codegen.GeneratePHP(ast)
-	fmt.Println(generatedCode)
+
+	// Define the output file name
+	outputFileName := "example.php"
+
+	// Write the generated PHP code to the file
+	err = os.WriteFile(outputFileName, []byte(generatedCode), 0644)
+	if err != nil {
+		fmt.Printf("Error writing to file: %v\n", err)
+		return
+	}
+
+	fmt.Printf("\n--- Generated PHP Code written to %s ---\n", outputFileName)
 }
