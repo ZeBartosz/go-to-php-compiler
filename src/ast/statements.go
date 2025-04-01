@@ -27,3 +27,23 @@ type ImportStmt struct {
 }
 
 func (n ImportStmt) stmt() {}
+
+type Parameters struct {
+	Name string
+	Type Type
+}
+
+type FuncStmt struct {
+	FuncName string
+	Params   []Parameters
+	Type     Type
+	Block    BlockStmt
+}
+
+func (n FuncStmt) stmt() {}
+
+type ReturnStmt struct {
+	Value Expr
+}
+
+func (n ReturnStmt) stmt() {}

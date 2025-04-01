@@ -38,6 +38,16 @@ func parse_expr_stmt(p *parser) (ast.Stmt, error) {
 	}, nil
 }
 
+func parse_return_stmt(p *parser) (ast.Stmt, error) {
+	p.advance()
+
+	returnValue := parse_expr(p, defalt_bp)
+
+	return ast.ReturnStmt{
+		Value: returnValue,
+	}, nil
+}
+
 func parse_var_decl_stmt(p *parser) (ast.Stmt, error) {
 	var explicitType ast.Type
 	var assignedValue ast.Expr
@@ -98,5 +108,52 @@ func parse_import_stmt(p *parser) (ast.Stmt, error) {
 
 	return ast.ImportStmt{
 		PackageName: packageName,
+	}, nil
+}
+
+func parse_func_stmt(p *parser) (ast.Stmt, error) {
+	p.advance()
+	funcName := p.expect(lexer.IDENTIFIER).Value
+	p.expect(lexer.OPEN_PAREN)
+
+	var params []ast.Parameters
+	for p.currentTokenKind() != lexer.CLOSE_PAREN {
+		paramName := p.expect(lexer.IDENTIFIER).Value
+		paramType := parse_type(p, defalt_bp)
+
+		params = append(params, ast.Parameters{Name: paramName, Type: paramType})
+
+		if p.currentTokenKind() == lexer.COMMA {
+			p.advance()
+		}
+	}
+
+	p.expect(lexer.CLOSE_PAREN)
+
+	funcType := parse_type(p, defalt_bp)
+
+	p.expect(lexer.OPEN_CURLY)
+
+	body := make([]ast.Stmt, 0)
+
+	for p.currentTokenKind() != lexer.CLOSE_CURLY {
+		stmt, err := parse_stmt(p)
+		if err != nil {
+			return nil, err
+		}
+		body = append(body, stmt)
+	}
+
+	p.expect(lexer.CLOSE_CURLY)
+
+	blockStmt := ast.BlockStmt{
+		Body: body,
+	}
+
+	return ast.FuncStmt{
+		FuncName: funcName,
+		Params:   params,
+		Type:     funcType,
+		Block:    blockStmt,
 	}, nil
 }

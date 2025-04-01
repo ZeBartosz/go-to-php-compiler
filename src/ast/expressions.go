@@ -46,3 +46,7 @@ type AssignmentExpr struct {
 }
 
 func (n AssignmentExpr) expr() {}
+
+type EmptyExpr struct{}
+
+func (n EmptyExpr) expr() {}

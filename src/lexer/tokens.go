@@ -64,12 +64,13 @@ const (
 	// Reserved Keywords
 	PACKAGE
 	LET
+	RETURN
 	CONST
 	CLASS
 	NEW
 	IMPORT
 	FROM
-	FN
+	FUNC
 	IF
 	ELSE
 	FOREACH
@@ -89,12 +90,13 @@ var reserved_lu map[string]TokenKind = map[string]TokenKind{
 	"false":   FALSE,
 	"null":    NULL,
 	"let":     LET,
+	"return":  RETURN,
 	"const":   CONST,
 	"class":   CLASS,
 	"new":     NEW,
 	"import":  IMPORT,
 	"from":    FROM,
-	"fn":      FN,
+	"func":    FUNC,
 	"if":      IF,
 	"else":    ELSE,
 	"foreach": FOREACH,
@@ -228,8 +230,10 @@ func TokenKindString(kind TokenKind) string {
 		return "import"
 	case FROM:
 		return "from"
-	case FN:
-		return "fn"
+	case FUNC:
+		return "func"
+	case PACKAGE:
+		return "package"
 	case IF:
 		return "if"
 	case ELSE:
@@ -240,6 +244,8 @@ func TokenKindString(kind TokenKind) string {
 		return "for"
 	case WHILE:
 		return "while"
+	case RETURN:
+		return "return"
 	case EXPORT:
 		return "export"
 	case IN:

@@ -35,7 +35,6 @@ func Parse(tokens []lexer.Token) (ast.Stmt, error) {
 		}
 
 		p.advance()
-
 		// packageName := p.advance().Value
 		// fmt.Printf("Parsed package: %s\n", packageName)
 	}
