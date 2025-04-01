@@ -27,8 +27,8 @@ func parse_stmt(p *parser) (ast.Stmt, error) {
 
 func parse_expr_stmt(p *parser) (ast.Stmt, error) {
 	expression := parse_expr(p, defalt_bp)
-	// checks if its a semicolon
-	_, err := p.expectError(lexer.SEMI_COLON, "Expected semicolon at end of expression")
+	// checks if its a eof
+	_, err := p.expectError(lexer.EOF, "Expected EOF at end of expression")
 	if err != nil {
 		return nil, err
 	}
@@ -82,5 +82,21 @@ func parse_var_decl_stmt(p *parser) (ast.Stmt, error) {
 		IsConstant:    isConst,
 		VariableName:  varName,
 		AssignedValue: assignedValue,
+	}, nil
+}
+
+// Function to parse import statements
+func parse_import_stmt(p *parser) (ast.Stmt, error) {
+	p.advance()
+
+	// Expect the next token to be an identifier (package name)
+	if p.currentTokenKind() != lexer.STRING {
+		return nil, fmt.Errorf("expected package name after import, current package name: %s and kind: %s", p.currentToken().Value, lexer.TokenKindString(p.currentTokenKind()))
+	}
+
+	packageName := p.advance().Value
+
+	return ast.ImportStmt{
+		PackageName: packageName,
 	}, nil
 }

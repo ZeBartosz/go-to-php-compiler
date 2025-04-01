@@ -21,3 +21,9 @@ type VarDeclStmt struct {
 }
 
 func (n VarDeclStmt) stmt() {}
+
+type ImportStmt struct {
+	PackageName string
+}
+
+func (n ImportStmt) stmt() {}
