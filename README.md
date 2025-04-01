@@ -20,7 +20,7 @@ This project serves as a hands-on learning experience for the following concepts
 
 ## Special Thanks
 
-A special thanks to [Tyler Laceby][(**https://www.youtube.com/channel/UC1g1g0g0g0g0g0g0g0g0g0**)](https://www.youtube.com/@tylerlaceby) on YouTube for his excellent explanations of lexer and tokenization. His tutorials have been instrumental in guiding me through the process of building this compiler.
+A special thanks to [Tyler Laceby](**https://www.youtube.com/channel/UC1g1g0g0g0g0g0g0g0g0g0**)(https://www.youtube.com/@tylerlaceby) on YouTube for his excellent explanations of lexer and tokenization. His tutorials have been instrumental in guiding me through the process of building this compiler.
 
 ## Getting Started
 
