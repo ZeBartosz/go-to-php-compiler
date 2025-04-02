@@ -1,4 +1,4 @@
-package codegen
+package generator
 
 import (
 	"fmt"
@@ -34,11 +34,6 @@ func generateStatement(stmt ast.Stmt) string {
 	}
 }
 
-// generateExpressionStmt: Handles expression statements
-func generateExpressionStmt(stmt ast.ExpressionStmt) string {
-	return generateExpression(stmt.Expression) + ";\n"
-}
-
 // generateExpression:  Handles different expression types.
 func generateExpression(expr ast.Expr) string {
 	switch n := expr.(type) {
@@ -57,47 +52,6 @@ func generateExpression(expr ast.Expr) string {
 	default:
 		return fmt.Sprintf("// Unsupported expression type: %T\n", expr)
 	}
-}
-
-// generateBinaryExpr: Handles binary expressions.
-func generateBinaryExpr(expr ast.BinaryExpr) string {
-	left := generateExpression(expr.Left)
-	right := generateExpression(expr.Right)
-	operator := translateOperator(expr.Operator)
-	return fmt.Sprintf("(%s %s %s)", left, operator, right)
-}
-
-// generatePrefixExpr: Handles prefix expressions.
-func generatePrefixExpr(expr ast.PrefixExpr) string {
-	operator := translateOperator(expr.Operator)
-	right := generateExpression(expr.RightExpr)
-	return fmt.Sprintf("%s%s", operator, right)
-}
-
-// generateAssignmentExpr: Handles assignment expressions.
-func generateAssignmentExpr(expr ast.AssignmentExpr) string {
-	assignee := generateExpression(expr.Assigne)
-	operator := translateOperator(expr.Operator)
-	value := generateExpression(expr.Value)
-	return fmt.Sprintf("%s %s %s", assignee, operator, value)
-}
-
-// generateVarDeclStmt: Handles variable declaration statements.
-func generateVarDeclStmt(stmt ast.VarDeclStmt) string {
-	var phpCode strings.Builder
-
-	phpCode.WriteString("$" + stmt.VariableName + " = " + generateExpression(stmt.AssignedValue) + ";\n")
-
-	return phpCode.String()
-}
-
-// generateBlockStmt: Handles block statements
-func generateBlockStmt(block ast.BlockStmt) string {
-	var phpCode strings.Builder
-	for _, stmt := range block.Body {
-		phpCode.WriteString(generateStatement(stmt))
-	}
-	return phpCode.String()
 }
 
 // translateOperator: Translates Go operators to PHP operators.

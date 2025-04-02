@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	codegen "github.com/ZeBartosz/go-to-php-compiler/src/CodeGen"
+	"github.com/ZeBartosz/go-to-php-compiler/src/generator"
 	"github.com/ZeBartosz/go-to-php-compiler/src/lexer"
 	"github.com/ZeBartosz/go-to-php-compiler/src/parser"
 )
@@ -28,7 +28,7 @@ func main() {
 	// fmt.Println("--- Abstract Syntax Tree ---")
 	// litter.Dump(ast)
 
-	generatedCode := codegen.GeneratePHP(ast)
+	generatedCode := generator.GeneratePHP(ast)
 
 	// Define the output file name
 	outputFileName := "main.php"

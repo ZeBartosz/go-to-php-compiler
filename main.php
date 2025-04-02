@@ -1,3 +1,3 @@
 <?php
 
-$b = 10;
+// Unsupported statement type: ast.FuncStmt
