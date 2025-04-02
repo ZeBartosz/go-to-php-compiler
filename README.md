@@ -29,7 +29,7 @@ To get started with the Go-to-PHP Compiler, clone the repository and run the fol
 ```bash
 git clone https://github.com/ZeBartosz/go-to-php-compiler.git
 cd go-to-php-compiler
-go run main.go
+go run src/main.go
 ```
 
 ## Contributing
