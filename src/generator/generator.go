@@ -14,8 +14,12 @@ func GeneratePHP(node ast.Stmt) string {
 
 	phpCode.WriteString("<?php\n\n")
 
+	phpCode.WriteString("class Main\n" + "{\n")
+
 	// Generate code for the main part of the AST.
 	phpCode.WriteString(generateStatement(node))
+
+	phpCode.WriteString("\n}")
 
 	return phpCode.String()
 }
@@ -23,12 +27,16 @@ func GeneratePHP(node ast.Stmt) string {
 // generateStatement: Handles different statement types
 func generateStatement(stmt ast.Stmt) string {
 	switch n := stmt.(type) {
-	case ast.BlockStmt: // Corrected type name
+	case ast.BlockStmt:
 		return generateBlockStmt(n)
 	case ast.ExpressionStmt:
 		return generateExpressionStmt(n)
 	case ast.VarDeclStmt:
 		return generateVarDeclStmt(n)
+	case ast.FuncStmt:
+		return generateFuncStmt(n)
+	case ast.ReturnStmt:
+		return generateReturnStmt(n)
 	default:
 		return fmt.Sprintf("// Unsupported statement type: %T\n", stmt)
 	}

@@ -6,6 +6,10 @@ type SymbolType struct {
 
 func (t SymbolType) _type() {}
 
+func (t SymbolType) String() string {
+	return t.Name
+}
+
 type ArrayType struct {
 	Underlying Type
 }
