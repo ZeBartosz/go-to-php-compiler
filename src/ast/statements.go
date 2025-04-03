@@ -42,6 +42,11 @@ type FuncStmt struct {
 
 func (n FuncStmt) stmt() {}
 
+type FuncInfo struct {
+	Name   string
+	Params []Parameters
+}
+
 type ReturnStmt struct {
 	Value Expr
 }

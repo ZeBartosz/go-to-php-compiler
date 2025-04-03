@@ -8,8 +8,9 @@ import (
 )
 
 type parser struct {
-	tokens []lexer.Token
-	pos    int
+	tokens   []lexer.Token
+	pos      int
+	funcList []ast.FuncInfo
 }
 
 // create a parser instance
@@ -18,8 +19,9 @@ func createParser(tokens []lexer.Token) *parser {
 	createTokenTypeLookups()
 
 	return &parser{
-		tokens: tokens,
-		pos:    0,
+		tokens:   tokens,
+		pos:      0,
+		funcList: []ast.FuncInfo{},
 	}
 }
 
