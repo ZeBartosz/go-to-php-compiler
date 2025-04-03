@@ -7,8 +7,8 @@ import (
 )
 
 // generateExpressionStmt: Handles expression statements
-func generateExpressionStmt(stmt ast.ExpressionStmt) string {
-	return generateExpression(stmt.Expression) + ";\n"
+func generateExpressionStmt(stmt ast.ExpressionStmt, gen *Generator) {
+	gen.writeln(generateExpression(stmt.Expression) + ";\n")
 }
 
 func generateParams(params []ast.Parameters) string {
@@ -28,40 +28,38 @@ func generateParams(params []ast.Parameters) string {
 }
 
 // generateVarDeclStmt: Handles variable declaration statements.
-func generateVarDeclStmt(stmt ast.VarDeclStmt) string {
-	var phpCode strings.Builder
-
-	phpCode.WriteString("$" + stmt.VariableName + " = " + generateExpression(stmt.AssignedValue) + ";\n")
-
-	return phpCode.String()
+func generateVarDeclStmt(stmt ast.VarDeclStmt, gen *Generator) {
+	gen.writeln("$" + stmt.VariableName + " = " + generateExpression(stmt.AssignedValue) + ";\n")
 }
 
 // generateBlockStmt: Handles block statements
-func generateBlockStmt(block ast.BlockStmt) string {
-	var phpCode strings.Builder
+func generateBlockStmt(block ast.BlockStmt, gen *Generator) {
 	for _, stmt := range block.Body {
-		phpCode.WriteString(generateStatement(stmt))
+		generateStatement(stmt, gen)
 	}
-	return phpCode.String()
 }
 
-func generateFuncStmt(stmt ast.FuncStmt) string {
-	var phpCode strings.Builder
+func generateFuncStmt(stmt ast.FuncStmt, gen *Generator) {
 
-	phpCode.WriteString("public function " + stmt.FuncName + "(" + generateParams(stmt.Params) + ")")
+	gen.increaseIndent()
+
 	if stmt.Type != nil {
-		phpCode.WriteString(": " + ast.TypeToString(stmt.Type))
+		gen.writeln("public function " + stmt.FuncName + "(" + generateParams(stmt.Params) + ")" + ": " + ast.TypeToString(stmt.Type))
+	} else {
+		gen.writeln("public function " + stmt.FuncName + "(" + generateParams(stmt.Params) + ")")
 	}
 
-	phpCode.WriteString("\n{ \n" + generateBlockStmt(stmt.Block) + "\n }")
+	gen.writeln("{")
+	gen.increaseIndent()
+	generateBlockStmt(stmt.Block, gen)
+	gen.decreaseIndent()
+	gen.writeln("}")
 
-	return phpCode.String()
+	gen.decreaseIndent()
 }
 
-func generateReturnStmt(stmt ast.ReturnStmt) string {
-	var phpCode strings.Builder
+func generateReturnStmt(stmt ast.ReturnStmt, gen *Generator) {
 
-	phpCode.WriteString("return " + generateExpression(stmt.Value) + ";")
+	gen.writeln("return " + generateExpression(stmt.Value) + ";")
 
-	return phpCode.String()
 }

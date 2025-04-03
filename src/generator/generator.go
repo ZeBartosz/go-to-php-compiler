@@ -8,37 +8,43 @@ import (
 	"github.com/ZeBartosz/go-to-php-compiler/src/lexer"
 )
 
+type Generator struct {
+	indentLevel int
+	strBuilder  strings.Builder
+}
+
 // GeneratePHP:  The main function to generate PHP code from the AST.
 func GeneratePHP(node ast.Stmt) string {
-	var phpCode strings.Builder
+	gen := &Generator{
+		indentLevel: 0,
+	}
 
-	phpCode.WriteString("<?php\n\n")
-
-	phpCode.WriteString("class Main\n" + "{\n")
+	gen.writeln("<?php\n")
+	gen.writeln("class Main\n" + "{\n")
 
 	// Generate code for the main part of the AST.
-	phpCode.WriteString(generateStatement(node))
+	generateStatement(node, gen)
 
-	phpCode.WriteString("\n}")
+	gen.writeln("}")
 
-	return phpCode.String()
+	return gen.strBuilder.String()
 }
 
 // generateStatement: Handles different statement types
-func generateStatement(stmt ast.Stmt) string {
+func generateStatement(stmt ast.Stmt, gen *Generator) {
 	switch n := stmt.(type) {
 	case ast.BlockStmt:
-		return generateBlockStmt(n)
+		generateBlockStmt(n, gen)
 	case ast.ExpressionStmt:
-		return generateExpressionStmt(n)
+		generateExpressionStmt(n, gen)
 	case ast.VarDeclStmt:
-		return generateVarDeclStmt(n)
+		generateVarDeclStmt(n, gen)
 	case ast.FuncStmt:
-		return generateFuncStmt(n)
+		generateFuncStmt(n, gen)
 	case ast.ReturnStmt:
-		return generateReturnStmt(n)
+		generateReturnStmt(n, gen)
 	default:
-		return fmt.Sprintf("// Unsupported statement type: %T\n", stmt)
+		gen.writeln(fmt.Sprintf("// Unsupported statement type: %T\n", stmt))
 	}
 }
 
