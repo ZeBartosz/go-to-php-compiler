@@ -10,13 +10,19 @@ import (
 )
 
 func main() {
-	filePath := "./examples/complex/06.go"
+	filePath := "./examples/complex/07.go"
 	bytes, err := os.ReadFile(filePath)
 	if err != nil {
 		fmt.Printf("Error reading file: %v\n", err)
 		return
 	}
 	tokens := lexer.Tokenize(string(bytes))
+	// fmt.Println("--- Tokens ---")
+	// for _, token := range tokens {
+
+	// 	token.Debug()
+
+	// }
 
 	ast, err := parser.Parse(tokens)
 	if err != nil {

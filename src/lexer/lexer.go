@@ -108,6 +108,7 @@ func createLexer(source string) *lexer {
 			{regexp.MustCompile(`==`), defaultHandler(EQUALS, "==")},
 			{regexp.MustCompile(`!=`), defaultHandler(NOT_EQUALS, "!=")},
 			{regexp.MustCompile(`=`), defaultHandler(ASSIGNMENT, "=")},
+			{regexp.MustCompile(`:=`), defaultHandler(ASSIGNMENT, ":=")},
 			{regexp.MustCompile(`!`), defaultHandler(NOT, "!")},
 			{regexp.MustCompile(`<=`), defaultHandler(LESS_EQUALS, "<=")},
 			{regexp.MustCompile(`<`), defaultHandler(LESS, "<")},

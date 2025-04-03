@@ -7,4 +7,13 @@ class Main
     {
         return ($x + $y);
     }
+    public function main()
+    {
+        $message = "Hello, World!";
+
+        $num1 = 10;
+
+        $num2 = 5;
+
+    }
 }

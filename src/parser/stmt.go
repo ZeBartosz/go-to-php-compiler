@@ -62,25 +62,22 @@ func parse_var_decl_stmt(p *parser) (ast.Stmt, error) {
 
 	varName := ident.Value
 
-	if p.currentTokenKind() == lexer.COLON {
-		p.advance()
+	if p.currentTokenKind() != lexer.ASSIGNMENT {
 		explicitType = parse_type(p, defalt_bp)
 	}
 
-	if p.currentTokenKind() != lexer.SEMI_COLON {
+	if p.currentTokenKind() == lexer.ASSIGNMENT {
 		// expect the current token to be an assignment
 		_, err = p.expectError(lexer.ASSIGNMENT, "Expected assignment operator (=)")
 		if err != nil {
 			return nil, err
 		}
+
 		assignedValue = parse_expr(p, assignment)
-	} else if explicitType == nil {
-		return nil, fmt.Errorf("missing either right-hand side of var declaration or explicit type")
 	}
 
-	_, err = p.expectError(lexer.SEMI_COLON, "Expected semicolon at the end of variable declaration")
-	if err != nil {
-		return nil, err
+	if explicitType == nil {
+		return nil, fmt.Errorf("missing either right-hand side of var declaration or explicit type")
 	}
 
 	if isConst && assignedValue == nil {
@@ -130,7 +127,11 @@ func parse_func_stmt(p *parser) (ast.Stmt, error) {
 
 	p.expect(lexer.CLOSE_PAREN)
 
-	funcType := parse_type(p, defalt_bp)
+	var funcType ast.Type
+
+	if p.currentTokenKind() != lexer.OPEN_CURLY {
+		funcType = parse_type(p, defalt_bp)
+	}
 
 	p.expect(lexer.OPEN_CURLY)
 
@@ -149,6 +150,8 @@ func parse_func_stmt(p *parser) (ast.Stmt, error) {
 	blockStmt := ast.BlockStmt{
 		Body: body,
 	}
+
+	p.addFunction(funcName, params)
 
 	return ast.FuncStmt{
 		FuncName: funcName,

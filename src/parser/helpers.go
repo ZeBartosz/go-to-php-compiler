@@ -3,6 +3,7 @@ package parser
 import (
 	"fmt"
 
+	"github.com/ZeBartosz/go-to-php-compiler/src/ast"
 	"github.com/ZeBartosz/go-to-php-compiler/src/lexer"
 )
 
@@ -57,4 +58,20 @@ func (p *parser) expect(expectedKind lexer.TokenKind) lexer.Token {
 		panic(err)
 	}
 	return tok
+}
+
+func (p *parser) addFunction(funcName string, params []ast.Parameters) {
+	p.funcList = append(p.funcList, ast.FuncInfo{
+		Name:   funcName,
+		Params: params,
+	})
+}
+
+func (p *parser) containsFunc(item string) bool {
+	for _, s := range p.funcList {
+		if s.Name == item {
+			return true
+		}
+	}
+	return false
 }

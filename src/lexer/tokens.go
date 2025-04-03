@@ -64,6 +64,7 @@ const (
 	// Reserved Keywords
 	PACKAGE
 	LET
+	VAR
 	RETURN
 	CONST
 	CLASS
@@ -90,6 +91,7 @@ var reserved_lu map[string]TokenKind = map[string]TokenKind{
 	"false":   FALSE,
 	"null":    NULL,
 	"let":     LET,
+	"var":     VAR,
 	"return":  RETURN,
 	"const":   CONST,
 	"class":   CLASS,
@@ -220,6 +222,8 @@ func TokenKindString(kind TokenKind) string {
 		return "percent"
 	case LET:
 		return "let"
+	case VAR:
+		return "var"
 	case CONST:
 		return "const"
 	case CLASS:
