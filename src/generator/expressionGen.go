@@ -2,6 +2,7 @@ package generator
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/ZeBartosz/go-to-php-compiler/src/ast"
 )
@@ -27,4 +28,14 @@ func generateAssignmentExpr(expr ast.AssignmentExpr) string {
 	operator := translateOperator(expr.Operator)
 	value := generateExpression(expr.Value)
 	return fmt.Sprintf("%s %s %s", assignee, operator, value)
+}
+
+func generateFuncCallExpr(expr ast.FuncCallExpr) string {
+	params := make([]string, len(expr.Pararms))
+
+	for i, param := range expr.Pararms {
+		params[i] = "$" + param
+	}
+
+	return fmt.Sprintf("$this->%s(%s)", expr.Value, strings.Join(params, ", "))
 }

@@ -15,5 +15,8 @@ class Main
 
         $num2 = 5;
 
+        $sum = $this->add($num1, $num2);
+
+        $product = ($num1 * $num2);
     }
 }

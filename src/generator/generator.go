@@ -63,6 +63,8 @@ func generateExpression(expr ast.Expr) string {
 		return generatePrefixExpr(n)
 	case ast.AssignmentExpr:
 		return generateAssignmentExpr(n)
+	case ast.FuncCallExpr:
+		return generateFuncCallExpr(n)
 	default:
 		return fmt.Sprintf("// Unsupported expression type: %T\n", expr)
 	}
@@ -83,6 +85,8 @@ func translateOperator(token lexer.Token) string {
 		return "="
 	case lexer.GREATER:
 		return ">"
+	case lexer.ASSIGNMENT:
+		return "="
 	default:
 		return "// Unsupported operator"
 	}

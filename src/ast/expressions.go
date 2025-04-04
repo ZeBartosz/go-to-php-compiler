@@ -49,6 +49,13 @@ type AssignmentExpr struct {
 
 func (n AssignmentExpr) expr() {}
 
+type FuncCallExpr struct {
+	Value   string
+	Pararms []string
+}
+
+func (n FuncCallExpr) expr() {}
+
 type EmptyExpr struct{}
 
 func (n EmptyExpr) expr() {}

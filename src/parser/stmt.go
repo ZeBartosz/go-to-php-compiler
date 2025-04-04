@@ -28,10 +28,10 @@ func parse_stmt(p *parser) (ast.Stmt, error) {
 func parse_expr_stmt(p *parser) (ast.Stmt, error) {
 	expression := parse_expr(p, defalt_bp)
 	// checks if its a eof
-	_, err := p.expectError(lexer.EOF, "Expected EOF at end of expression")
-	if err != nil {
-		return nil, err
-	}
+	// _, err := p.expectError(lexer.EOF, "Expected EOF at end of expression")
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	return ast.ExpressionStmt{
 		Expression: expression,

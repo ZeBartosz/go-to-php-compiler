@@ -51,11 +51,38 @@ func parse_primary_expr(p *parser) ast.Expr {
 			Value: p.advance().Value,
 		}
 	case lexer.IDENTIFIER:
+		if p.containsFunc(p.currentToken().Value) {
+			return parse_func_call_expr(p)
+		}
 		return ast.SymbolExpr{
 			Value: p.advance().Value,
 		}
 	default:
 		panic(fmt.Sprintf("Cannot create primary_expr from %s\n", lexer.TokenKindString(p.currentTokenKind())))
+	}
+}
+
+func parse_func_call_expr(p *parser) ast.Expr {
+	funcName := p.advance().Value
+
+	p.expect(lexer.OPEN_PAREN)
+
+	var params []string
+	for p.currentTokenKind() != lexer.CLOSE_PAREN {
+		paramName := p.expect(lexer.IDENTIFIER).Value
+
+		params = append(params, paramName)
+
+		if p.currentTokenKind() == lexer.COMMA {
+			p.advance()
+		}
+	}
+
+	p.expect(lexer.CLOSE_PAREN)
+
+	return ast.FuncCallExpr{
+		Value:   funcName,
+		Pararms: params,
 	}
 }
 
