@@ -26,6 +26,8 @@ func GeneratePHP(node ast.Stmt) string {
 	generateStatement(node, gen)
 
 	gen.writeln("}")
+	gen.writeln("$main = new Main();")
+	gen.writeln("$main->main();")
 
 	return gen.strBuilder.String()
 }
@@ -43,6 +45,8 @@ func generateStatement(stmt ast.Stmt, gen *Generator) {
 		generateFuncStmt(n, gen)
 	case ast.ReturnStmt:
 		generateReturnStmt(n, gen)
+	case ast.ImportStmt:
+		//
 	default:
 		gen.writeln(fmt.Sprintf("// Unsupported statement type: %T\n", stmt))
 	}
@@ -65,6 +69,8 @@ func generateExpression(expr ast.Expr) string {
 		return generateAssignmentExpr(n)
 	case ast.FuncCallExpr:
 		return generateFuncCallExpr(n)
+	case ast.ImportCallExpr:
+		return generateCallExpr(n)
 	default:
 		return fmt.Sprintf("// Unsupported expression type: %T\n", expr)
 	}

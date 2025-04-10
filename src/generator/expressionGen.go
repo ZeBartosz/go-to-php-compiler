@@ -39,3 +39,18 @@ func generateFuncCallExpr(expr ast.FuncCallExpr) string {
 
 	return fmt.Sprintf("$this->%s(%s)", expr.Value, strings.Join(params, ", "))
 }
+
+func generateCallExpr(expr ast.ImportCallExpr) string {
+	params := make([]string, len(expr.Pararms))
+
+	for i, param := range expr.Pararms {
+		if param.Identifier {
+			params[i] = "$" + param.Value
+		} else {
+			params[i] = "\"" + param.Value + "\""
+		}
+
+	}
+
+	return fmt.Sprintf("echo %s ", strings.Join(params, " . "))
+}

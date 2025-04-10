@@ -8,9 +8,10 @@ import (
 )
 
 type parser struct {
-	tokens   []lexer.Token
-	pos      int
-	funcList []ast.FuncInfo
+	tokens     []lexer.Token
+	pos        int
+	funcList   []ast.FuncInfo
+	ImportList []ast.ImportStmt
 }
 
 // create a parser instance

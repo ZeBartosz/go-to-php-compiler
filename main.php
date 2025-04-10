@@ -18,5 +18,14 @@ class Main
         $sum = $this->add($num1, $num2);
 
         $product = ($num1 * $num2);
+
+        echo $message . "\n" ;
+
+        echo "Sum:" . $sum . "\n" ;
+
+        echo "Product:" . $product . "\n" ;
+
     }
 }
+$main = new Main();
+$main->main();

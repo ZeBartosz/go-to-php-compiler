@@ -102,6 +102,7 @@ func parse_import_stmt(p *parser) (ast.Stmt, error) {
 	}
 
 	packageName := p.advance().Value
+	p.addImport(packageName)
 
 	return ast.ImportStmt{
 		PackageName: packageName,

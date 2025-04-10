@@ -75,3 +75,18 @@ func (p *parser) containsFunc(item string) bool {
 	}
 	return false
 }
+
+func (p *parser) addImport(importName string) {
+	p.ImportList = append(p.ImportList, ast.ImportStmt{
+		PackageName: importName,
+	})
+}
+
+func (p *parser) containsImport(item string) bool {
+	for _, s := range p.ImportList {
+		if s.PackageName == item {
+			return true
+		}
+	}
+	return false
+}

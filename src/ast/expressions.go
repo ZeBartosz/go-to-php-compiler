@@ -56,6 +56,18 @@ type FuncCallExpr struct {
 
 func (n FuncCallExpr) expr() {}
 
+type ImportParams struct {
+	Identifier bool
+	Value      string
+}
+
+type ImportCallExpr struct {
+	Value   string
+	Pararms []ImportParams
+}
+
+func (n ImportCallExpr) expr() {}
+
 type EmptyExpr struct{}
 
 func (n EmptyExpr) expr() {}
